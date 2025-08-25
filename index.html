@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Google Fonts Add -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Asap+Condensed&family=Cabin+Condensed&family=Comfortaa:wght@300..700&family=Dancing+Script&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Jost&family=Kalam&family=Kanit&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Noto+Sans+Display:wght@600&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Odibee+Sans&family=PT+Sans+Narrow&family=Playwrite+ZA+Guides&family=Poetsen+One&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sansita+Swashed:wght@300..900&family=Signika+Negative:wght@300..700&family=Slabo+27px&family=Syne:wght@400..800&family=Ubuntu:wght@500&family=Winky+Sans:ital,wght@0,300..900;1,300..900&family=Yesteryear&display=swap"
+        rel="stylesheet">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+               font-family: "Jost", "Sans-serif";
+        }
+        :root{
+            --clr-dark: #040404;
+            --clr-lightDark: #323030;
+            --clr-shadow: #ccc;
+            --clr-white-default: #c8c1c1;
+            --clr-blueGradient: #8273e7;
+            --clr-background: #e5e5e5;
+            --clr-gold: #ffa500;
+        }
+        .parent{
+              display: grid;
+            place-content: center;
+            min-height: 100vh;
+            background: var(--clr-white-default);
+        }
+        .input{
+            padding: 5px 10px;
+            /* padding: 15px; */
+            /* box-shadow: 0 4px 10px var(--clr-shadow); */
+        }
+        .input input{
+            width: 100%;
+            height: 120px;
+            border: none;
+            outline: none;
+            background: var(--clr-background);
+            font-size: 1.5rem;
+            text-align: right;
+            /* box-shadow: 0 4px 4px 10px var(--clr-shadow); */
+        }
+        #view{
+            font-size: 1.5rem;
+        }
+        h2{
+            text-align: center;
+        }
+        .calculatorBody{
+             background: var(--clr-background);
+            box-shadow: 0 0 20px var(--clr-lightDark);
+            border-radius: 20px;
+        }
+        .calculatorContainer{
+            padding: 15px 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .operator, .number, .rotate{
+            padding: 20px;
+            border: none;
+            box-shadow: 0 0 25px var(--clr-shadow);
+            color: var(--clr-lightDark);
+           border-radius: 10px;
+           color: var(--clr-blueGradient);
+           font-size: 1.3rem;
+           font-weight: bold;
+        }
+        .number{
+            color: var(--clr-lightDark);
+        }
+        .calculatorContainer > button{
+            transition:  transform 0.4s ease, background-color 0.4s ease;
+        }
+        .calculatorContainer > button:focus{
+            background: var(--clr-shadow);
+            box-shadow: 0 0 5px var(--clr-background);
+        }
+        .item-0{
+            grid-column-start: 1;
+            grid-column-end: 3;
+        }
+        hr{
+            border-color: var(--clr-shadow);
+        }
+        #view{
+            position: relative;
+            top: -30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="parent">
+        <div class="calculatorBody">
+            <h2>Calculator</h2>
+            <div class="input">
+                <input type="text" id="inputBox" readonly>
+                <p id="view" style="text-align: right;"></p>
+            </div>
+            <hr style="border-width: 2px; border-style: double; border-top: none;">
+            <div class="calculatorContainer">
+                <button class="operator">AC</button>
+                <button class="operator">+/-</button>
+                <button class="operator">%</button>
+                <button class="operator"> /</button>
+                <button class="number">7</button>
+                <button class="number">8</button>
+                <button class="number">9</button>
+                <button class="operator">*</button>
+                <button class="number">4</button>
+                <button class="number">5</button>
+                <button class="number">6</button>
+                <button class="operator">-</button>
+                <button class="number">1</button>
+                <button class="number">2</button>
+                <button class="number">3</button>
+                <button class="operator">+</button>
+                <!-- <button class="rotate">--</button> -->
+                <button class="number item-0">0</button>
+                <button class="number">.</button>
+                <button class="operator">=</button>
+            </div>
+        </div>
+    </div>
+<script>
+    let calculatorButtons = document.querySelectorAll(".calculatorContainer button");  // Store all the calculator buttons
+    let inputBox = document.getElementById("inputBox");
+    let preView = document.getElementById("view")
+    console.log(calculatorButtons);
+    inputBox.value = "0"
+    inputBox.addEventListener("input", () => {
+        
+        if (inputBox.value = "0") {
+            console.log(inputBox.value)
+        }
+    })
+    // Loop through the buttons
+    calculatorButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            let buttonContent = btn.textContent; // store each button content
+
+            if (buttonContent === "AC") {
+                clearData()
+            }else if (buttonContent === "=") {
+                Evaluate()
+            } else if (buttonContent === "+/-") {
+                clearOne()
+            }else if (inputBox.value === "0") {
+                inputBox.value = ""
+            }
+            else{
+                appendValue(buttonContent)
+            }
+        })
+    });
+
+    //Fn to clear data in input
+    const clearData = () => {
+        inputBox.value = ""
+    };
+
+    // Fn to append value to the input - to show contents on input
+    const appendValue = (buttonContent) => {
+            inputBox.value += buttonContent;
+    };
+    // Run calculation
+    const Evaluate = () => {
+        let inputValue = inputBox.value;
+        // Replace % with /100 for correct percentage calculation
+        inputValue = inputValue.replace(/%/g, "/100");
+        try {
+            preView.innerHTML = eval(inputValue);
+        } catch (e) {
+            inputBox.value = "Invalid Expression";
+            inputBox.style.color = "red";
+            setTimeout(() => {
+                inputBox.value = "";
+                inputBox.style.color = "black"
+            }, 5000)
+        }
+    };
+
+    // Clear from left
+    const clearOne = () => {
+        let inputData = inputBox.value;
+        inputBox.value = inputData.slice(0, -1);
+    }
+
+</script>
+</body>
+</html>
